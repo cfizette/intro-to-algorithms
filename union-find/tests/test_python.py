@@ -41,3 +41,7 @@ def test_quick_find():
 
 def test_quick_union():
     union_find_tester(QuickUnion)
+
+
+def test_optimized_quick_union():
+    union_find_tester(OptimizedUnionFind)
