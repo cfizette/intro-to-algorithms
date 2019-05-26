@@ -10,6 +10,8 @@ public class Percolation {
     private boolean[] blocked;
     private int n, numOpenSites;
     private WeightedQuickUnionUF uf;
+    private int topIndex;
+    private int bottomIndex;
 
     public Percolation(int num){
         if (num <= 0){
@@ -18,10 +20,22 @@ public class Percolation {
         n = num;
         uf = new WeightedQuickUnionUF(n*n+2);
         blocked = new boolean[n*n+2];
+        topIndex = 0;
+        bottomIndex = n*n+1;
 
         // block the grid leaving the virtual cells empty and filled
         for (int i=1; i<=n*n; i++){
             blocked[i] = true;
+        }
+
+        // connect top row to top virtual cell
+        for ( int col=1; col<=n; col++){
+            uf.union(topIndex, index(1, col));
+        }
+
+        // connect bottom row to bottom virtual cell
+        for ( int col=1; col<=n; col++){
+            uf.union(bottomIndex, index(n, col));
         }
 
         numOpenSites = 0;
@@ -45,18 +59,20 @@ public class Percolation {
             throw new IllegalArgumentException();
         }
 
-        blocked[index(row, col)] = false;
-        numOpenSites++;
+        if (!isOpen(row, col)) {
+            blocked[index(row, col)] = false;
+            numOpenSites++;
 
-        int[] adjacent_cols = {col-1, col+1};
-        int[] adjacent_rows = {row-1, row+1};
+            int[] adjacent_cols = { col - 1, col + 1 };
+            int[] adjacent_rows = { row - 1, row + 1 };
 
-        // check surrounding cells
-        for (int c: adjacent_cols){
-            for (int r: adjacent_rows){
-                // If adjacent cell is open, connect to current cell
-                if (isValid(row, col) && isOpen(row, col)){
-                    uf.union(index(row, col), index(r, c));
+            // check surrounding cells
+            for (int c : adjacent_cols) {
+                for (int r : adjacent_rows) {
+                    // If adjacent cell is open, connect to current cell
+                    if (isValid(r, c) && isOpen(r, c)) {
+                        uf.union(index(row, col), index(r, c));
+                    }
                 }
             }
         }
@@ -78,10 +94,10 @@ public class Percolation {
     }
 
     public boolean percolates(){
-        return uf.connected(0, n+1);
+        return uf.connected(0, bottomIndex);
     }
 
-    public int getNumOpenSites(){
+    public int numberOfOpenSites(){
         return numOpenSites;
     }
 
