@@ -42,7 +42,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("Cannot add null values");
         }
-        if (lastIndex + 1 > array.length) {
+        if (lastIndex + 1 >= array.length) {
             resize(array.length * 2);
         }
         lastIndex++;
