@@ -15,7 +15,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int lastIndex;
 
     public RandomizedQueue() {
-        @SuppressWarnings("unchecked")
+        // @SuppressWarnings("unchecked")
         Item[] a = (Item[]) new Object[1];
         array = a;
         lastIndex = -1; // index of last added item, since nothing was added initialize to -1
@@ -30,9 +30,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void resize(int newSize) {
-        @SuppressWarnings("unchecked")
+        // @SuppressWarnings("unchecked")
         Item[] newArray = (Item[]) new Object[newSize];
-        for (int i = 0; i <= lastIndex; i++){
+        for (int i = 0; i <= lastIndex; i++) {
             newArray[i] = array[i];
         }
         array = newArray;
@@ -68,7 +68,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (size() == 0) {
             throw new NoSuchElementException("Queue is empty");
         }
-        int i =StdRandom.uniform(lastIndex + 1);
+        int i = StdRandom.uniform(lastIndex + 1);
         return array[i];
     }
 
@@ -85,7 +85,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         RandomizedIterator() {
             // copy contents of array
-            @SuppressWarnings("unchecked")
+            // @SuppressWarnings("unchecked")
             Item[] a = (Item[]) new Object[lastIndex + 1];
             for (int i = 0; i <= lastIndex; i++) {
                 a[i] = array[i];
@@ -116,10 +116,4 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new UnsupportedOperationException("Remove not supported");
         }
     }
-
-    public static void main(String[] args) {
-
-    }
-
-
 }
